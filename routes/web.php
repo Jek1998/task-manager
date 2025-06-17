@@ -3,18 +3,23 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('tasks');
-})->middleware(['auth']);
+// Главная страница с задачами — только для авторизованных пользователей
+Route::middleware(['auth'])->get('/', fn () => view('tasks'))->name('tasks');
 
-Route::get('/dashboard', function () {
+// Альтернативный путь к задачам
+Route::middleware(['auth'])->get('/tasks', fn () => view('tasks'))->name('tasks');
+
+// Панель управления
+Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+// Профиль пользователя
+Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Роуты аутентификации Breeze
 require __DIR__.'/auth.php';

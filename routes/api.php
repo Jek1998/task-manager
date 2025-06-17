@@ -11,3 +11,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/tasks/completed', [TaskController::class, 'clearCompleted']);
     Route::patch('/tasks/{id}', [TaskController::class, 'update']);
 });
+

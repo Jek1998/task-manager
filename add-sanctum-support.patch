@@ -1,0 +1,24 @@
+diff --git a/config/auth.php b/config/auth.php
+index 1234567..abcdef0 100644
+--- a/config/auth.php
++++ b/config/auth.php
+@@ -78,6 +78,11 @@ return [
+         ],
+
++        'sanctum' => [
++            'driver' => 'sanctum',
++            'provider' => 'users',
++        ],
+     ],
+diff --git a/app/Http/Kernel.php b/app/Http/Kernel.php
+index 7654321..fedcba9 100644
+--- a/app/Http/Kernel.php
++++ b/app/Http/Kernel.php
+@@ -50,6 +50,7 @@ class Kernel extends HttpKernel
+     protected $middlewareGroups = [
+         'api' => [
++            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+             'throttle:api',
+             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+         ],
+     ];

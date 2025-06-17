@@ -4,17 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Task;
 
 class TaskController extends Controller
 {
-    // Список  задач
+    // Получить список задач текущего пользователя
     public function index()
     {
-        return auth()->user()->tasks()->orderBy('created_at', 'desc')->get();
+        return auth()->user()
+            ->tasks()
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
-    // Создать задачу
+    // Создать новую задачу
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -22,8 +26,8 @@ class TaskController extends Controller
         ]);
 
         $task = auth()->user()->tasks()->create([
-        'title' => $validated['title'],
-        'completed' => false,
+            'title' => $validated['title'],
+            'completed' => false,
         ]);
 
         return response()->json($task, 201);
@@ -32,39 +36,42 @@ class TaskController extends Controller
     // Удалить задачу
     public function destroy($id)
     {
-        $task = Task::findOrFail($id);
+        $task = auth()->user()->tasks()->findOrFail($id);
         $task->delete();
 
         return response()->json(null, 204);
     }
 
-    // Задача выполнена
-        public function toggle($id)
+    // Переключить статус задачи (завершено/не завершено)
+    public function toggle($id)
     {
-        $task = Task::findOrFail($id);
+        $task = auth()->user()->tasks()->findOrFail($id);
         $task->completed = !$task->completed;
         $task->save();
 
         return response()->json($task);
     }
-     
-    // Очистка завершённых
-        public function clearCompleted()
+
+    // Очистить завершённые задачи
+    public function clearCompleted()
     {
-        Task::where('completed', true)->delete();
+        auth()->user()->tasks()
+            ->where('completed', true)
+            ->delete();
+
         return response()->json(['status' => 'ok']);
     }
 
-
+    // Обновить заголовок задачи
     public function update(Request $request, $id)
     {
-        $task = Task::findOrFail($id);
-        $task->update([
-            'title' => $request->input('title'),
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
         ]);
+
+        $task = auth()->user()->tasks()->findOrFail($id);
+        $task->update(['title' => $validated['title']]);
 
         return response()->json($task);
     }
-
-
 }
