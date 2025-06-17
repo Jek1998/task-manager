@@ -1,30 +1,31 @@
-# Task Manager (Laravel + jQuery + Bootstrap)
+# Task Manager (Laravel + jQuery + Bootstrap) <br>
 
-Простой менеджер задач с возможностью добавления, удаления, фильтрации, редактирования и отметки выполненных задач.
+Простой менеджер задач с возможностью добавления, удаления, фильтрации, редактирования и отметки выполненных задач.<br>
 
-## Технологии
-- Laravel 12
-- Laravel Breeze (Blade)
-- MySQL (через XAMPP)
-- jQuery + AJAX
-- Bootstrap 5
+## Технологии<br>
+- Laravel 12 <br>
+- Laravel Breeze (Blade)<br>
+- MySQL (через XAMPP)<br>
+- jQuery + AJAX<br>
+- Bootstrap 5<br>
 
-## Установка
-git clone https://github.com/IhZhur/task-manager.git
-cd task-manager
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate
-npm install && npm run build
-php artisan serve
+## Установка<br>
+git clone https://github.com/IhZhur/task-manager.git<br>
+cd task-manager<br>
+composer install<br>
+cp .env.example .env<br>
+php artisan key:generate<br>
+php artisan migrate<br>
+npm install && npm run build<br>
+php artisan serve<br>
 
-## Возможности
-CRUD задач
-Фильтрация (все, активные, завершённые)
-Удаление завершённых задач
-Визуальное редактирование задач
-Поддержка авторизации (Laravel Breeze)
+## Возможности<br>
 
-## Автор
-IhZhur
+Регистрация и вход в систему<br>
+CRUD-задачи (создание, удаление, редактирование)<br>
+Фильтрация задач (все / активные / завершённые)<br>
+Статистика задач<br>
+Удаление всех завершённых задач<br>
+
+## Автор<br>
+IhZhur<br>
